@@ -78,7 +78,24 @@ ggplot(teste_frequencias) +
 # primeira data registrada é do ano 1969 e ultima data registrada é do ano 2021  
 ggsave("resultados/colunas-multi-freq.pdf", width = 230, height = 100, units = "mm")
 
+#gráfico padronizado do modelo agora de linhas
+ggplot(teste_frequencias) +
+  aes(x = decade, y = freq, group = format, color = format) +
+  geom_line() +
+  geom_point() +
+  geom_text(
+    aes(label = legendas),
+    position = position_dodge(width = 0.98),
+    vjust = -1.1, hjust = 0.45,
+    size = 1.8
+  ) +
+  labs(x = "Década", y = "Frequência", color = "Formato") +
+  theme_estat()
 
+
+#anotações:
+# primeira data registrada é do ano 1969 e ultima data registrada é do ano 2021  
+ggsave("resultados/linhas-multi-freq.pdf", width = 158, height = 93, units = "mm")
 
 #criando o banco de dados para a análise 1, colunas; 
 ana1 <- banco %>%
@@ -181,7 +198,5 @@ print_quadro_resumo <- function(data, title="Medidas resumo da(o) [nome da vari�
 
 ana1 %>%
   print_quadro_resumo()
-
-
 
 
