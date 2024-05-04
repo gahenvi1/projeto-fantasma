@@ -97,3 +97,9 @@ print_quadro_resumo <- function(data, title="Medidas resumo da(o) [nome da variÃ
 banco %>%
   group_by(season) %>%
   print_quadro_resumo()
+
+#coeficiente de determinacao
+modelo <- lm(banco$imdb ~ banco$season)
+
+rquadrad <- summary(modelo)$r.squared
+print(round(rquadrad, 2))
