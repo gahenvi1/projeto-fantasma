@@ -133,25 +133,16 @@ print_quadro_resumo(banco, var_name = "engagement")
 
 
 
-
-
-
-
-
-
-
-
-
-# Criar o gráfico ggplot com geom_jitter
+# gráfico estático com geom_point
 p <- read_csv("banco/banco_final.csv") %>%
   ggplot(aes(x = imdb, y = engagement, text = paste("Título:", title, "<br>Data de Lançamento:", date_aired,"<br>Nota IMDB:", imdb, "<br>Nível de Engajamento:", engagement ))) +
-  geom_jitter() +
+  geom_point(colour = "#A11D21", size = 2) +
   labs(x = "Nota do Episódio", y = "Nível de Engajamento")+
   theme_estat()
 
-# Tornar o gráfico interativo com plotly
+# gráfico interativo com plotly
 p_interactive <- ggplotly(p, tooltip = "text")
 
-# Salvar o gráfico interativo em um arquivo HTML
-htmlwidgets::saveWidget(p_interactive, "grafico_interativo.html")
+# salvando o arquivo em html
+htmlwidgets::saveWidget(p_interactive, "resultados/index.html")
 

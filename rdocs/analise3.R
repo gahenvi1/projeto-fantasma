@@ -91,4 +91,8 @@ tab <- xtabs(~ trap_work_first + setting_terrain, data = banco)
 #funcao que calcula os coeficientes
 summary(assocstats(tab))
 
-
+#frequencia depois dos filtros
+outro<- banco %>%
+  group_by(setting_terrain) %>%
+  summarise(n=n()) %>%
+  arrange(desc(n))
