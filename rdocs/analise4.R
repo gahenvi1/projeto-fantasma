@@ -51,5 +51,4 @@ ggsave("resultados/graf_imdb_x_engajamento.pdf", width = 158, height = 93, units
 
 #coeficiente de pearson
 round(cor(banco$imdb, banco$engagement, method = "pearson"), 4)
-
-
+#valor observado: 0.9243

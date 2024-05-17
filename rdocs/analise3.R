@@ -77,7 +77,7 @@ ggplot(terreno) +
     vjust = -0.5, hjust = 0.5,
     size = 2.7
   ) +
-  labs(x = "Terreno", y = "Frequência", fill = "Armadilha de primeira?") +
+  labs(x = "Terreno", y = "Frequência", fill = "Armadilha funcionou na primeira tentativa?") +
   theme_estat()
 
 ggsave("resultados/armadilha_x_terreno.pdf", width = 158, height = 93, units = "mm")
@@ -90,3 +90,5 @@ tab <- xtabs(~ trap_work_first + setting_terrain, data = banco)
 
 #funcao que calcula os coeficientes
 summary(assocstats(tab))
+
+
