@@ -1,43 +1,13 @@
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load("ggplot2", "tidyverse", "stringr", "vcd", "knitr", "kableExtra")
-
-#cores estat
-estat_colors <- c(
-  "#A11D21", "#003366", "#CC9900",
-  "#663333", "#FF6600", "#CC9966",
-  "#999966", "#006606", "#008091",
-  "#041835", "#666666" )
-
-#tema estat
-theme_estat <- function(...) {
-  theme <- ggplot2::theme_bw() +
-    ggplot2::theme(
-      axis.title.y = ggplot2::element_text(colour = "black", size = 12),
-      axis.title.x = ggplot2::element_text(colour = "black", size = 12),
-      axis.text = ggplot2::element_text(colour = "black", size = 9.5),
-      panel.border = ggplot2::element_blank(),
-      axis.line = ggplot2::element_line(colour = "black"),
-      legend.position = "top",
-      ...
-    )
-  
-  return(
-    list(
-      theme,
-      scale_fill_manual(values = estat_colors),
-      scale_colour_manual(values = estat_colors)
-    )
-  )
-}
+source("~/Documents/projeto-fantasma/rdocs/source.R")
 
 
-#banco com os dados sem valores NA e referente as colunas da análise 3
-banco <- read_csv("banco/banco_final.csv") %>%
+#banco3 com os dados sem valores NA e referente as colunas da análise 3
+banco3 <- banco %>%
   select(trap_work_first, setting_terrain) %>%
   filter(!is.na(trap_work_first))
 
 #dados para a tabela dos dados sem o filtro
-top3 <- read_csv("banco/banco_final.csv") %>%
+top3 <- banco %>%
   select(trap_work_first, setting_terrain) %>%
   group_by(setting_terrain) %>%
   summarise(`Frequência` = n()) %>%
@@ -45,8 +15,8 @@ top3 <- read_csv("banco/banco_final.csv") %>%
   arrange(desc(`Frequência`))
 
 
-#banco para gráficos? tabela?
-terreno <- banco %>%
+#banco3 para gráficos? tabela?
+terreno <- banco3 %>%
   mutate(setting_terrain = case_when(
     setting_terrain %>% str_detect("Urban") ~ "Urbano",
     setting_terrain %>% str_detect("Rural") ~ "Rural",
@@ -86,13 +56,13 @@ ggsave("resultados/armadilha_x_terreno.pdf", width = 158, height = 93, units = "
 
 #coeficiente de contigencia
 # tabela cruzada
-tab <- xtabs(~ trap_work_first + setting_terrain, data = banco)
+tab <- xtabs(~ trap_work_first + setting_terrain, data = banco3)
 
 #funcao que calcula os coeficientes
 summary(assocstats(tab))
 
 #frequencia depois dos filtros
-outro<- banco %>%
+outro<- banco3 %>%
   group_by(setting_terrain) %>%
   summarise(n=n()) %>%
   arrange(desc(n))
