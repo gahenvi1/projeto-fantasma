@@ -40,6 +40,7 @@ print_quadro_resumo <- function(data, var_name, title="Medidas resumo da(o) [nom
     summarize(`Média` = round(mean(!!sym(var_name)),2),
               `Desvio Padrão` = round(sd(!!sym(var_name)),2),
               `Variância` = round(var(!!sym(var_name)),2),
+              `Coef. de Variação` = round((sd(!!sym(var_name))/mean(!!sym(var_name))),2),
               `Mínimo` = round(min(!!sym(var_name)),2),
               `1º Quartil` = round(quantile(!!sym(var_name), probs = .25),2),
               `Mediana` = round(quantile(!!sym(var_name), probs = .5),2),
