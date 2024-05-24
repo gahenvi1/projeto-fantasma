@@ -4,10 +4,10 @@ banco5 <- banco %>%
   pivot_longer(cols= starts_with("caught_"),
                names_to = "Quem capturou?",
                values_to = "capturou"
-                 ) %>%
+  ) %>%
   filter(capturou == T) %>%
   mutate(`Quem capturou?` = str_to_title(str_replace(`Quem capturou?`, "caught_", ""))) %>%
-  select(`Quem capturou?`, engagement) %>%
+  select(`Quem capturou?`, engagement, title, date_aired) %>%
   mutate(`Quem capturou?` = as.factor(case_when(
     `Quem capturou?` %>% str_detect("Daphnie") ~ "Daphne",
     `Quem capturou?` %>% str_detect("Fred") ~ "Fred",
@@ -17,13 +17,11 @@ banco5 <- banco %>%
     `Quem capturou?` %>% str_detect("Not") ~ "MNC",
     `Quem capturou?` %>% str_detect("Other") ~ "Outro"
   )))
-  
-levels(banco5$`Quem capturou?`) <- c("Fred", "Velma", "Daphne", "Salsicha", "Scooby", "Outro", "MNC")
 
 
 #gráfico box-plot padronizado
 ggplot(banco5) +
-  aes(x = `Quem capturou?`, y = engagement) +
+  aes(x = reorder(`Quem capturou?`, engagement, FUN = mean), y = engagement) +
   geom_boxplot(fill = c("#A11D21"), width = 0.5) +
   stat_summary(
     fun = "mean", geom = "point", shape = 23, size = 3, fill = "white"
@@ -38,8 +36,11 @@ banco5 %>%
   print_quadro_resumo(var_name = "engagement")
 
 
+#coeficiente de determinacao
+modelo <- lm(banco5$engagement ~ banco5$`Quem capturou?`)
+
+rquadrad <- summary(modelo)$r.squared
+print(round(rquadrad, 4))
 
 
 
-
-  
